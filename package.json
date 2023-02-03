@@ -1,0 +1,35 @@
+{
+  "name": "deno-astro-example",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --host",
+    "build": "astro build",
+    "preview": "deno run -A ./dist/server/entry.mjs",
+    "docker:build": "docker build -t deno-astro-example:latest .devcontainer/.",
+    "docker:run": "docker run -it --rm -u vscode -w /workspaces/deno-astro-example -v $PWD:/workspaces/deno-astro-example -p 3000:3000 -p 8085:8085 deno-astro-example:latest zsh",
+    "clean": "rm -rf .astro dist",
+    "clean:all": "rm -rf .astro dist node_modules"
+  },
+  "dependencies": {
+    "@astrojs/deno": "^4.0.0",
+    "@astrojs/mdx": "^0.15.2",
+    "@astrojs/prefetch": "^0.1.2",
+    "@astrojs/react": "^2.0.2",
+    "@astrojs/rss": "^2.1.0",
+    "@astrojs/tailwind": "^3.0.1",
+    "@tailwindcss/typography": "^0.5.9",
+    "astro": "^2.0.4",
+    "astro-seo": "^0.7.0",
+    "clsx": "^1.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "ts-standard": "^12.0.2"
+  }
+}

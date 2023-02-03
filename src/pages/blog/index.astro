@@ -1,0 +1,38 @@
+---
+import Time from '../../components/Time.astro'
+import Wrapper from '../../components/Wrapper.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts'
+import { getCollection } from 'astro:content'
+
+// sort posts by date descending
+const posts = (await getCollection('blog')).sort((a, b) => {
+  // prefer to parse the date manually, instead of using a Zod transform
+  const aDate = typeof a.data.publishDate === 'string' ? new Date(a.data.publishDate) : a.data.publishDate
+  const bDate = typeof b.data.publishDate === 'string' ? new Date(b.data.publishDate) : b.data.publishDate
+  // I changed the schema to make dates optional so the same template could be used everywhere
+  // so these could be undefined (but we know they're not)
+  // @ts-ignore
+  return bDate.valueOf() - aDate.valueOf()
+})
+---
+<Wrapper title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="container mx-auto px-4">
+    <div class="mx-auto max-w-3xl">
+      <section class="flex justify-center mt-10">
+        <div class="grid gap-10">
+          {
+            posts.map((post) => (
+              <div>
+                <p class="font-light text-sm text-black dark:text-white">
+                  <Time date={post.data.publishDate} />
+                </p>
+                <a class="block font-medium text-xl text-indigo-500" href={`/blog/${post.slug}/`} rel="prefetch">{post.data.title}</a>
+                <p class="text-lg text-gray-700 dark:text-gray-300 mt-1">{post.data.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+  </main>
+</Wrapper>

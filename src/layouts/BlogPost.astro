@@ -1,0 +1,47 @@
+---
+import type { MarkdownInstance } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+
+import Time from '../components/Time.astro'
+import Wrapper from '../components/Wrapper.astro'
+
+import Image from '../islands/Image'
+
+export interface Props {
+  frontmatter?: MarkdownInstance<CollectionEntry<'blog'>['data']>['frontmatter']
+}
+
+const { frontmatter } = Astro.props
+const { description, heroImage, publishDate, title, updateDate } = frontmatter ?? {}
+---
+<!-- if the props are undefined then the page wasn't found -->
+<Wrapper title={title ?? '404: Not found'} description={description ?? '404: Not found'} image={heroImage}>
+  <div class="container mx-auto px-4">
+    <div class="mx-auto max-w-3xl">
+      <article class:list={["prose prose-lg dark:prose-invert prose-a:no-underline mt-10", { 'text-center': !title }]}>
+        <!-- show hero image -->
+        {heroImage && <Image src={heroImage} alt="" aspectRatio="video" imgProps={{ className: 'my-0' }} />}
+
+        <!-- heading -->
+        <h1 class="mt-10 mb-0">{title ?? '404'}</h1>
+
+        <!-- show published date if not updated -->
+        {!updateDate && publishDate && (
+          <span class="text-gray-500 dark:text-gray-500">
+            <Time date={publishDate} />
+          </span>
+        )}
+
+        <!-- show updated date -->
+        {updateDate && (
+          <span class="text-gray-500 dark:text-gray-500">
+            Last updated on
+            {' '}
+            <Time date={updateDate} />
+          </span>
+        )}
+        <slot />
+      </article>
+    </div>
+  </div>
+</Wrapper>

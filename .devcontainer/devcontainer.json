@@ -1,0 +1,21 @@
+{
+  "name": "deno-astro-example",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "forwardPorts": [
+    3000, // for astro dev
+    8085  // for astro preview
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        /* Astro        */ "astro-build.astro-vscode",
+        /* Tailwind CSS */ "bradlc.vscode-tailwindcss",
+        /* EditorConfig */ "editorconfig.editorconfig",
+        /* StandardJS   */ "standard.vscode-standard",
+        /* MDX          */ "unifiedjs.vscode-mdx"
+      ]
+    }
+  }
+}
